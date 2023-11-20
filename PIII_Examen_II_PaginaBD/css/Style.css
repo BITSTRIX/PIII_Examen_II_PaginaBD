@@ -1,0 +1,97 @@
+﻿body {
+    margin: *;
+    padding: *;
+}
+
+.Formulario {
+    margin: 3em;
+}
+
+    .Formulario h1 {
+        text-align: center;
+        color: darkmagenta;
+        padding: 0.5em;
+        margin-bottom: 2em;
+        margin-left: 20%;
+        margin-right: 20%;
+        background-color: rgb(0, 0, 0, 0.5);
+        border-radius: 6px;
+    }
+
+.GridView {
+    padding-left: 10em;
+    padding-right: 10em;
+    text-align: center;
+    height: auto;
+    align-content: center;
+}
+
+.Datos {
+    width: 100%;
+}
+
+.Buttons {
+    width: 100%;
+    text-align: center;
+    align-content: center;
+}
+
+.myGridClass {
+    width: 100%;
+    /*this will be the color of the odd row*/
+    background-color: rgb(0, 0, 0, 0.8);
+    margin: 5px 0 10px 0;
+    border: solid 1px rgb(55 55 55 / 0.90);
+    border-collapse: collapse;
+}
+
+    /*data elements*/
+    .myGridClass td {
+        padding: 2px;
+        border: solid 1px rgb(55 55 55 / 0.90);
+        ;
+        color: white;
+    }
+
+    /*header elements*/
+    .myGridClass th {
+        padding: 4px 2px;
+        color: #fff;
+        background: #424242;
+        border-left: solid 1px rgb(55 55 55 / 0.90);
+        ;
+        font-size: 0.9em;
+    }
+
+    /*his will be the color of even row*/
+    .myGridClass .myAltRowClass {
+        background: rgba(0, 0, 0, 0.5) repeat-x top;
+    }
+
+    /*and finally, we style the pager on the bottom*/
+    .myGridClass .myPagerClass {
+        background: #424242;
+    }
+
+        .myGridClass .myPagerClass table {
+            margin: 5px 0;
+        }
+
+        .myGridClass .myPagerClass td {
+            border-width: 0;
+            padding: 0 6px;
+            border-left: solid 1px #666;
+            font-weight: bold;
+            color: rgb(39, 39, 39, 0,5);
+            line-height: 12px;
+        }
+
+        .myGridClass .myPagerClass a {
+            color: rgb(39, 39, 39, 0,5);
+            text-decoration: none;
+        }
+
+            .myGridClass .myPagerClass a:hover {
+                color: rgb(39, 39, 39, 0,91);
+                text-decoration: none;
+            }

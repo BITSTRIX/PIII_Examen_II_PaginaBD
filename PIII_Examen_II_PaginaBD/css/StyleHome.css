@@ -1,0 +1,63 @@
+﻿body {
+    margin: *;
+    padding: *;
+}
+
+
+@import url("https://fonts.googleapis.com/css2?family=Russo+One&display=swap");
+
+svg {
+    font-family: "Russo One", sans-serif;
+    width: 100%;
+    height: 100%;
+    margin-top: 6em;
+    margin-bottom: 4em;
+}
+    svg text {
+        animation: stroke 5s infinite alternate;
+        stroke-width: 2;
+        stroke: #D3357F;
+        font-size: 72px;
+    }
+
+@keyframes stroke {
+    0% {
+        fill: rgba(56,115,167,0);
+        stroke: rgba(211,53,127,1);
+        stroke-dashoffset: 25%;
+        stroke-dasharray: 0 50%;
+        stroke-width: 2;
+    }
+
+    70% {
+        fill: rgba(56,115,167,0);
+        stroke: rgba(211,53,127,1);
+    }
+
+    80% {
+        fill: rgba(56,115,167,0);
+        stroke: rgba(211,53,127,1);
+        stroke-width: 3;
+    }
+
+    100% {
+        fill: rgba(56,115,167,1);
+        stroke: rgba(211,53,127,0);
+        stroke-dashoffset: -25%;
+        stroke-dasharray: 50% 0;
+        stroke-width: 0;
+    }
+}
+
+.Creditos {
+    margin: 2em;
+    text-align: center;
+    font-size: 30px;
+    font-family: 'ROG Fonts';
+    background: #B8E1FC;
+    background: -webkit-radial-gradient(circle farthest-corner at center center, #B8E1FC 0%, #CFCFCF 100%);
+    background: -moz-radial-gradient(circle farthest-corner at center center, #B8E1FC 0%, #CFCFCF 100%);
+    background: radial-gradient(circle farthest-corner at center center, #B8E1FC 0%, #CFCFCF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
