@@ -87,6 +87,7 @@
     <Content Include="css\script.js" />
     <Content Include="css\Style.css" />
     <Content Include="css\StyleHome.css" />
+    <Content Include="DB\PIII_ExamenII_Jose Antonio Valerio Chaves.sql" />
     <Content Include="images\logo0.ico" />
     <Content Include="images\logo0.png" />
     <Content Include="images\wallpaper1.jpg" />
