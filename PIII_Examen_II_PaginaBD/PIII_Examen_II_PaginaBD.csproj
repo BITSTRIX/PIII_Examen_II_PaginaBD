@@ -83,11 +83,13 @@
     <Content Include="css\bootstrap.min.css" />
     <Content Include="css\bootstrap.rtl.css" />
     <Content Include="css\bootstrap.rtl.min.css" />
+    <Content Include="css\Login.css" />
     <Content Include="css\menuStyle.css" />
     <Content Include="css\script.js" />
     <Content Include="css\Style.css" />
     <Content Include="css\StyleHome.css" />
     <Content Include="DB\PIII_ExamenII_Jose Antonio Valerio Chaves.sql" />
+    <Content Include="images\hacker.png" />
     <Content Include="images\logo0.ico" />
     <Content Include="images\logo0.png" />
     <Content Include="images\wallpaper1.jpg" />
@@ -104,12 +106,16 @@
     <Content Include="pages\Reparaciones.aspx" />
     <Content Include="pages\Tecnicos.aspx" />
     <Content Include="pages\Usuarios.aspx" />
+    <Content Include="pages\Login.aspx" />
+    <Content Include="pages\UsuariosSistema.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clases\ClaseEquipos.cs" />
     <Compile Include="clases\ClaseTecnicos.cs" />
     <Compile Include="clases\ClaseUsuarios.cs" />
+    <Compile Include="clases\ClaseInicioSesion.cs" />
+    <Compile Include="clases\ClaseUsuarioSistema.cs" />
     <Compile Include="clases\Dbconn.cs" />
     <Compile Include="Menu.Master.cs">
       <DependentUpon>Menu.Master</DependentUpon>
@@ -159,6 +165,20 @@
     </Compile>
     <Compile Include="pages\Usuarios.aspx.designer.cs">
       <DependentUpon>Usuarios.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\UsuariosSistema.aspx.cs">
+      <DependentUpon>UsuariosSistema.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\UsuariosSistema.aspx.designer.cs">
+      <DependentUpon>UsuariosSistema.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

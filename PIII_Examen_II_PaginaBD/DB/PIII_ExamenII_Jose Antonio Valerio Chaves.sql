@@ -18,11 +18,24 @@ telefono VARCHAR(15) UNIQUE
 )
 GO
 
+CREATE TABLE systemUsers
+(
+userID INT IDENTITY(1,1) PRIMARY KEY,
+nombre VARCHAR(50) NOT NULL,
+correoElectronico VARCHAR(50) NOT NULL,
+telefono VARCHAR(15),
+contrasenna VARCHAR(40) NOT NULL,
+CONSTRAINT uq_correo UNIQUE(correoElectronico)
+)
+GO
+
 CREATE TABLE Tecnicos
 (
 tecnicoID INT IDENTITY(1,1) PRIMARY KEY,
 nombre VARCHAR(50) NOT NULL,
-especialidad VARCHAR(50)
+especialidad VARCHAR(50),
+idSystemUsers INT NOT NULL,
+CONSTRAINT fkIdSystemUsers FOREIGN KEY(idSystemUsers) REFERENCES systemUsers(userID)
 )
 GO
 
@@ -53,7 +66,7 @@ reparacionID int,
 descripcion varchar(50),
 fechaInicio DATETIME,
 fechaFin DATETIME,
-CONSTRAINT fkDetalleID FOREIGN KEY (DetalleID) REFERENCES Reparaciones(reparacionID)
+CONSTRAINT fkreparacionID FOREIGN KEY (reparacionID) REFERENCES Reparaciones(reparacionID)
 )
 GO
 
@@ -65,6 +78,33 @@ tecnicoID int,
 fechaAsignacion DATETIME,
 CONSTRAINT fkAsignacionesreparacionID FOREIGN KEY (reparacionID) REFERENCES Reparaciones(reparacionID),
 CONSTRAINT fkAsignacionestecnicoID FOREIGN KEY (tecnicoID) REFERENCES Tecnicos(tecnicoID)
+)
+GO
+
+
+
+INSERT INTO systemUsers (nombre, correoElectronico, telefono, contrasenna)
+VALUES
+('Ana García', 'ana.garcia@example.com', '555-1234', 'contrasenna1'),
+('Pedro Martínez', 'pedro.martinez@example.com', '555-5678', 'contrasenna2'),
+('Laura Sánchez', 'laura.sanchez@example.com', NULL, 'contrasenna3'),
+('Luis Rodríguez', 'luis.rodriguez@example.com', '555-9012', 'contrasenna4'),
+('Sofía Hernández', 'sofia.hernandez@example.com', '555-3456', 'contrasenna5'),
+('Javier Pérez', 'javier.perez@example.com', NULL, 'contrasenna6'),
+('Elena Gómez', 'elena.gomez@example.com', '555-7890', 'contrasenna7');
+GO
+
+CREATE TABLE roles
+(
+RolID INT IDENTITY(1,1) PRIMARY KEY,
+nombreRol VARCHAR(40) CONSTRAINT uq_nombreRol UNIQUE
+)
+GO
+
+CREATE TABLE usersRoles
+(
+idUserRol INT CONSTRAINT fk_idUser FOREIGN KEY (idUserRol) REFERENCES systemUsers(userID),
+idRolUser INT CONSTRAINT fk_idRol FOREIGN KEY (idRolUser) REFERENCES roles(RolID)
 )
 GO
 
@@ -82,14 +122,12 @@ VALUES
 ('Isabel Fernández', 'isabel.fernandez@example.com', '777-888-9999');
 
 -- Insertar datos en la tabla Tecnicos
-INSERT INTO Tecnicos (nombre, especialidad)
+INSERT INTO Tecnicos (nombre, especialidad, idSystemUsers)
 VALUES
-('Laura González', 'Hardware'),
-('Miguel Sánchez', 'Redes'),
-('Ana Martínez', 'Software'),
-('Pedro López', 'Seg Informática'),
-('Carmen Martín', 'Base de Datos'),
-('Rafael Castro', 'Desarrollo Web');
+('Pedro Martínez', 'Hardware', 1),
+('Luis Rodríguez', 'Redes', 4),
+('Elena Gómez', 'Software', 7)
+
 
 -- Insertar datos en la tabla Equipos
 INSERT INTO Equipos (tipoEquipo, modelo, usuarioID)
@@ -100,6 +138,7 @@ VALUES
 ('Tablet', 'Samsung Galaxy Tab S7', 4),
 ('Desktop', 'HP Pavilion', 5),
 ('Smartphone', 'iPhone 13', 6);
+GO
 
 -- Insertar datos en la tabla Reparaciones
 INSERT INTO Reparaciones (equipoID, fechaSolicitud, estado)
@@ -249,5 +288,124 @@ CREATE PROCEDURE PcEliminarTecnico
 AS
 	BEGIN
 	DELETE from  Tecnicos WHERE tecnicoID = @TecnicoID
+	END
+GO
+
+
+--PROCEDIMIENTOS ALMACENADOS TABLA DE REPARACIONES---
+
+
+
+SELECT
+    T.nombre AS 'Nombre del tecnico',
+    A.asignacionID AS 'Código de asignacion',
+    A.fechaAsignacion AS 'Fecha de la asignacion',
+    E.tipoEquipo AS 'Tipo de equipo',
+    E.modelo AS 'Modelo de equipo',
+    U.nombre AS 'Nombre de Usuario'
+FROM
+    Asignaciones A
+INNER JOIN Tecnicos T ON A.tecnicoID = T.tecnicoID
+INNER JOIN Reparaciones R ON A.reparacionID = R.reparacionID
+INNER JOIN Equipos E ON R.equipoID = E.equipoID
+INNER JOIN Usuarios U ON E.usuarioID = U.usuarioID;
+
+SELECT
+    T.nombre,
+    A.asignacionID,
+    A.fechaAsignacion,
+    E.tipoEquipo,
+    E.modelo,
+    U.nombre
+FROM
+    Asignaciones A
+INNER JOIN Tecnicos T ON A.tecnicoID = T.tecnicoID
+INNER JOIN Reparaciones R ON A.reparacionID = R.reparacionID
+INNER JOIN Equipos E ON R.equipoID = E.equipoID
+INNER JOIN Usuarios U ON E.usuarioID = U.usuarioID;
+
+
+SELECT
+    Tecnicos.nombre,
+    Asignaciones.asignacionID,
+    Asignaciones.fechaAsignacion,
+    Equipos.tipoEquipo ,
+    Equipos.modelo,
+    Usuarios.nombre
+FROM
+    Asignaciones
+INNER JOIN Tecnicos ON Asignaciones.tecnicoID = Tecnicos.tecnicoID
+INNER JOIN Reparaciones ON Asignaciones.reparacionID = Reparaciones.reparacionID
+INNER JOIN Equipos ON Reparaciones.equipoID = Equipos.equipoID
+INNER JOIN Usuarios ON Equipos.usuarioID = Usuarios.usuarioID;
+
+
+
+
+-- Agregar roles
+INSERT INTO roles (nombreRol) VALUES ('Admin'), ('Tecnico'), ('Lector');
+GO
+-- Asignar roles a usuarios
+INSERT INTO usersRoles (idUserRol, idRolUser) VALUES
+(1, 1), -- Ana García es Admin
+(2, 2), -- Pedro Martínez es Tecnico
+(3, 3), -- Laura Sánchez es Lector
+(4, 2), -- Luis Rodríguez es Tecnico
+(5, 3), -- Sofía Hernández es Lector
+(6, 1), -- Javier Pérez es Admin
+(7, 2); -- Elena Gómez es Tecnico
+GO
+
+CREATE PROCEDURE PCValidarUsuario
+@correo varchar(50),
+@clave varchar(50)
+	AS
+		BEGIN 
+			SELECT correoElectronico, contrasenna FROM systemUsers WHERE correoElectronico=@correo AND contrasenna=@clave
+		END
+
+		GO
+
+		EXEC PCValidarUsuario 'ana.garcia@example.com', 'contrasenna1'
+
+
+--PROCEDIMIENTOS ALMACENADOS TABLA DE USUARIOS SISTEMA ---
+
+CREATE PROCEDURE PcAgregarUsuarioSistema
+@Nombre VARCHAR(50),
+@Correo VARCHAR(50),
+@Telefono VARCHAR(15),
+@Password VARCHAR(50)
+AS
+	BEGIN
+	INSERT INTO systemUsers(nombre, correoElectronico, telefono, contrasenna)VALUES (@Nombre,@Correo, @Telefono, @Password)
+	END
+GO
+
+CREATE PROCEDURE PcModificarUsuarioSistema
+@userID INT,
+@Nombre VARCHAR(50),
+@Correo VARCHAR(50),
+@Telefono VARCHAR(15),
+@Password VARCHAR(50)
+AS
+	BEGIN
+	UPDATE systemUsers SET nombre = @Nombre,correoElectronico = @Correo, telefono = @Telefono, contrasenna = @Password WHERE userID = @userID
+	END
+GO
+
+CREATE PROCEDURE PcConsultarUsuarioSistema
+@UsuarioID INT
+AS
+	BEGIN
+	SELECT * from  systemUsers WHERE userID = @UsuarioID
+	END
+GO
+
+CREATE PROCEDURE PcEliminarUsuarioSistema
+@UsuarioID INT
+AS
+	BEGIN
+	DELETE from  systemUsers WHERE userID = @UsuarioID
 	END
 GO

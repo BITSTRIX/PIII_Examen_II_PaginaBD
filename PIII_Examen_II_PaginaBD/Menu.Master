@@ -35,11 +35,16 @@
                         <a href="Tecnicos.aspx" class="navbar__link"><i data-feather="users"></i><span>Tecnicos</span></a>
                     </li>
                     <li class="navbar__item">
-                        <a href="Usuarios.aspx" class="navbar__link"><i data-feather="folder"></i><span>Usuarios</span></a>
+                        <a href="Usuarios.aspx" class="navbar__link"><i data-feather="folder"></i><span>Clientes</span></a>
                     </li>
                     <li class="navbar__item">
                         <a href="Reparaciones.aspx" class="navbar__link"><i data-feather="archive"></i><span>Reparaciones</span></a>
                     </li>
+                    <li class="navbar__item">
+                        <a href="UsuariosSistema.aspx" class="navbar__link"><i data-feather="archive"></i><span>Usuarios S.</span></a>
+                    </li>
+                    <li class="navbar__item">
+                        <a href="XXXX.aspx" class="navbar__link"><i data-feather="archive"></i><span>Reportes.</span></a>
                     </li>
                 </ul>
             </nav>
