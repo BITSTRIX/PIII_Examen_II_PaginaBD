@@ -12,17 +12,20 @@ namespace PIII_Examen_II_PaginaBD.clases
         public int id { get; set; }
         public string nombre { get; set; }
         public string especialidad { get; set; }
+        public int idSystem { get; set; }
 
         public ClaseTecnicos() { }
 
-        public ClaseTecnicos(int id, string nombre, string especialidad)
+        public ClaseTecnicos(int id, string nombre, string especialidad, int idSystem)
         {
             this.id = id;
             this.nombre = nombre;
             this.especialidad = especialidad;
+            this.especialidad = especialidad;
+            this.idSystem = idSystem;
         }
 
-        public static int AgregarTecnico(String nombre, string especialidad)
+        public static int AgregarTecnico(String nombre, string especialidad, int idSys)
         {
             int retorno = 0;
 
@@ -37,6 +40,7 @@ namespace PIII_Examen_II_PaginaBD.clases
                     };
                     cmd.Parameters.Add(new SqlParameter("@Nombre", nombre));
                     cmd.Parameters.Add(new SqlParameter("@Especialidad", especialidad));
+                    cmd.Parameters.Add(new SqlParameter("@SystemUser", idSys));
 
                     retorno = cmd.ExecuteNonQuery();
                 }
@@ -52,7 +56,7 @@ namespace PIII_Examen_II_PaginaBD.clases
             return retorno;
         }
 
-        public static int ModificarTecnico(int ID, String nombre, String especialidad)
+        public static int ModificarTecnico(int ID, String nombre, String especialidad, int idSys)
         {
             int retorno = 0;
 
@@ -68,6 +72,7 @@ namespace PIII_Examen_II_PaginaBD.clases
                     cmd.Parameters.Add(new SqlParameter("@TecnicoID", ID));
                     cmd.Parameters.Add(new SqlParameter("@Nombre", nombre));
                     cmd.Parameters.Add(new SqlParameter("@Especialidad", especialidad));
+                    cmd.Parameters.Add(new SqlParameter("@SystemUser", idSys));
                     retorno = cmd.ExecuteNonQuery();
                 }
             }
@@ -128,7 +133,7 @@ namespace PIII_Examen_II_PaginaBD.clases
                     {
                         while (reader.Read())
                         {
-                            ClaseTecnicos Tecnico = new ClaseTecnicos(reader.GetInt32(0), reader.GetString(1), reader.GetString(2));  // instancia
+                            ClaseTecnicos Tecnico = new ClaseTecnicos(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetInt32(3));  // instancia
                             List.Add(Tecnico);
                         }
                     }

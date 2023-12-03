@@ -1,31 +1,31 @@
 ﻿<%@ Page Title="Tecnicos" Language="C#" MasterPageFile="~/Menu.Master" AutoEventWireup="true" CodeBehind="Tecnicos.aspx.cs" Inherits="PIII_Examen_II_PaginaBD.pages.Tecnicos" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style type="text/css">
+        .auto-style3 {
+            height: 16px;
+            text-align: left;
+        }
 
-    .auto-style3 {
-        height: 16px;
-        text-align: left;
-    }
-    .auto-style5 {
-        height: 16px;
-        color: #FFFFFF;
-        text-align: left;
-    }
+        .auto-style5 {
+            height: 16px;
+            color: #FFFFFF;
+            text-align: left;
+        }
 
-    .auto-style6 {
-        padding: 3em;
-        height: 174px;
-        margin: 0 auto;
-    }
+        .auto-style6 {
+            padding: 3em;
+            height: 174px;
+            margin: 0 auto;
+        }
 
-    .auto-style7 {
-        text-align: left;
-    }
-
-</style>
+        .auto-style7 {
+            text-align: left;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-        <link href="../css/bootstrap.css" rel="stylesheet" />
+    <link href="../css/bootstrap.css" rel="stylesheet" />
     <link href="../css/Style.css" rel="stylesheet" />
     <div class="Formulario">
         <h1>CONTROL DE TECNICOS</h1>
@@ -43,16 +43,23 @@
                         <asp:TextBox ID="txtIdTecnico" runat="server" Height="30px" TextMode="Number" Width="249px"></asp:TextBox>
                     </td>
                 </tr>
-       <tr>
-    <td class="auto-style5"><strong>Nombre del Tecnico:</strong></td>
-    <td class="auto-style3">
-        <asp:TextBox ID="txtNombre" runat="server" Height="30px" Width="249px"></asp:TextBox>
-    </td>
-</tr>
+                <tr>
+                    <td class="auto-style5"><strong>Nombre del Tecnico:</strong></td>
+                    <td class="auto-style3">
+                        <asp:TextBox ID="txtNombre" runat="server" Height="30px" Width="249px"></asp:TextBox>
+                    </td>
+                </tr>
                 <tr>
                     <td class="auto-style5"><strong>Especialidad del Tecnico:  </strong></td>
                     <td class="auto-style3">
                         <asp:TextBox ID="txtEspecialidad" runat="server" Height="30px" Width="249px"></asp:TextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="auto-style5"><strong>Usuario Sistema: </strong></td>
+                    <td class="auto-style7">
+                        <asp:DropDownList ID="DropListUsuarioSistema" runat="server" Height="30px" TextMode="Number" Width="249px">
+                        </asp:DropDownList>
                     </td>
                 </tr>
             </table>

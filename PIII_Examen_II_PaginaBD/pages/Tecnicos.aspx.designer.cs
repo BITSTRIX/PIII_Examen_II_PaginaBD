@@ -51,6 +51,15 @@ namespace PIII_Examen_II_PaginaBD.pages
         protected global::System.Web.UI.WebControls.TextBox txtEspecialidad;
 
         /// <summary>
+        /// Control DropListUsuarioSistema.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropListUsuarioSistema;
+
+        /// <summary>
         /// Control btnAgregar.
         /// </summary>
         /// <remarks>

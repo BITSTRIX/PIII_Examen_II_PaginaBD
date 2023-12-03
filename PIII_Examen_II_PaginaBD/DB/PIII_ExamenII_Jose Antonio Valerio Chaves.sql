@@ -124,10 +124,9 @@ VALUES
 -- Insertar datos en la tabla Tecnicos
 INSERT INTO Tecnicos (nombre, especialidad, idSystemUsers)
 VALUES
-('Pedro Martínez', 'Hardware', 1),
+('Pedro Martínez', 'Hardware', 2),
 ('Luis Rodríguez', 'Redes', 4),
 ('Elena Gómez', 'Software', 7)
-
 
 -- Insertar datos en la tabla Equipos
 INSERT INTO Equipos (tipoEquipo, modelo, usuarioID)
@@ -258,10 +257,11 @@ GO
 
 CREATE PROCEDURE PcAgregarTecnico
 @Nombre VARCHAR(50),
-@Especialidad VARCHAR(50)
+@Especialidad VARCHAR(50),
+@SystemUser INT
 AS
 	BEGIN
-	INSERT INTO Tecnicos (nombre, especialidad)VALUES (@Nombre,@Especialidad)
+	INSERT INTO Tecnicos (nombre, especialidad, idSystemUsers)VALUES (@Nombre,@Especialidad, @SystemUser)
 	END
 GO
 
@@ -276,10 +276,11 @@ GO
 CREATE PROCEDURE PcModificarTecnico
 @TecnicoID INT,
 @Nombre VARCHAR(50),
-@Especialidad VARCHAR(50)
+@Especialidad VARCHAR(50),
+@SystemUser INT
 AS
 	BEGIN
-	UPDATE Tecnicos SET nombre = @Nombre,especialidad = @Especialidad WHERE tecnicoID = @TecnicoID
+	UPDATE Tecnicos SET nombre = @Nombre,especialidad = @Especialidad, idSystemUsers = @SystemUser WHERE tecnicoID = @TecnicoID
 	END
 GO
 
@@ -325,21 +326,6 @@ INNER JOIN Equipos E ON R.equipoID = E.equipoID
 INNER JOIN Usuarios U ON E.usuarioID = U.usuarioID;
 
 
-SELECT
-    Tecnicos.nombre,
-    Asignaciones.asignacionID,
-    Asignaciones.fechaAsignacion,
-    Equipos.tipoEquipo ,
-    Equipos.modelo,
-    Usuarios.nombre
-FROM
-    Asignaciones
-INNER JOIN Tecnicos ON Asignaciones.tecnicoID = Tecnicos.tecnicoID
-INNER JOIN Reparaciones ON Asignaciones.reparacionID = Reparaciones.reparacionID
-INNER JOIN Equipos ON Reparaciones.equipoID = Equipos.equipoID
-INNER JOIN Usuarios ON Equipos.usuarioID = Usuarios.usuarioID;
-
-
 
 
 -- Agregar roles
@@ -363,11 +349,7 @@ CREATE PROCEDURE PCValidarUsuario
 		BEGIN 
 			SELECT correoElectronico, contrasenna FROM systemUsers WHERE correoElectronico=@correo AND contrasenna=@clave
 		END
-
 		GO
-
-		EXEC PCValidarUsuario 'ana.garcia@example.com', 'contrasenna1'
-
 
 --PROCEDIMIENTOS ALMACENADOS TABLA DE USUARIOS SISTEMA ---
 
@@ -407,5 +389,15 @@ CREATE PROCEDURE PcEliminarUsuarioSistema
 AS
 	BEGIN
 	DELETE from  systemUsers WHERE userID = @UsuarioID
+	END
+GO
+
+CREATE PROCEDURE PcDropListUsuarioSistema
+AS
+	BEGIN
+		SELECT nombre, userID FROM systemUsers SA 
+		INNER JOIN usersRoles UR ON SA.userID = idUserRol
+		INNER JOIN roles R ON UR.idRolUser  = RolID
+		WHERE R.nombreRol = 'Tecnico'
 	END
 GO

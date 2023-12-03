@@ -19,6 +19,7 @@ namespace PIII_Examen_II_PaginaBD.pages
             if (!IsPostBack)
             {
                 LlenarTabla();
+                LlenarDropListUsuariosSistema();
             }
         }
 
@@ -45,6 +46,30 @@ namespace PIII_Examen_II_PaginaBD.pages
             }
         }
 
+        protected void LlenarDropListUsuariosSistema()
+        {
+            string constr = ConfigurationManager.ConnectionStrings["Conexion"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                con.Open(); // Abre la conexión antes de ejecutar el comando
+                using (SqlCommand cmd = new SqlCommand("PcDropListUsuarioSistema", con)) // Llama al procedimiento almacenado
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        using (DataTable dt = new DataTable())
+                        {
+                            sda.Fill(dt);
+                            DropListUsuarioSistema.DataSource = dt;
+                            DropListUsuarioSistema.DataValueField = "userID";
+                            DropListUsuarioSistema.DataTextField = "nombre";
+                            DropListUsuarioSistema.DataBind();
+                        }
+                    }
+                }
+            }
+        }
+
         public void Alertas(String texto)
         {
             string message = texto;
@@ -63,7 +88,7 @@ namespace PIII_Examen_II_PaginaBD.pages
 
             if (txtNombre.Text != string.Empty)
             {
-                int resultado = clases.ClaseTecnicos.AgregarTecnico(txtNombre.Text, txtEspecialidad.Text);
+                int resultado = clases.ClaseTecnicos.AgregarTecnico(txtNombre.Text, txtEspecialidad.Text, int.Parse(DropListUsuarioSistema.SelectedValue));
                 if (resultado > 0)
                 {
                     Alertas("Tecnico registrado correctamente.");
@@ -87,6 +112,7 @@ namespace PIII_Examen_II_PaginaBD.pages
             txtNombre.Text = string.Empty;
             txtEspecialidad.Text = string.Empty;
             LlenarTabla();
+            LlenarDropListUsuariosSistema();
         }
 
 
@@ -109,6 +135,7 @@ namespace PIII_Examen_II_PaginaBD.pages
                     txtIdTecnico.Text = DatoExtraido.id.ToString();
                     txtNombre.Text = DatoExtraido.nombre.ToString();
                     txtEspecialidad.Text = DatoExtraido.especialidad.ToString();
+                    DropListUsuarioSistema.SelectedValue = DatoExtraido.idSystem.ToString();
                 }
             }
             else
@@ -144,7 +171,7 @@ namespace PIII_Examen_II_PaginaBD.pages
         {
             if (txtIdTecnico.Text != string.Empty && txtNombre.Text != string.Empty && txtEspecialidad.Text != string.Empty)
             {
-                int resultado = clases.ClaseTecnicos.ModificarTecnico(Convert.ToInt32(txtIdTecnico.Text), txtNombre.Text, txtEspecialidad.Text);
+                int resultado = clases.ClaseTecnicos.ModificarTecnico(Convert.ToInt32(txtIdTecnico.Text), txtNombre.Text, txtEspecialidad.Text, int.Parse(DropListUsuarioSistema.SelectedValue));
                 if (resultado > 0)
                 {
                     Alertas("Tecnico modificado correctamente.");
